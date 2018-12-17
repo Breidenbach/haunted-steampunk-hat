@@ -10,6 +10,8 @@ light the head lamp, raise the hat lid of the hat exposing
 the googly eyes, lower the lid, extinguish the head lamp,
 and re-enable the interrupt.
 
+For Arduino Nano
+
 */
  
 #include <Servo.h>
@@ -25,9 +27,10 @@ int headLightBrightness = 0;
 bool peekRequest = false;
 
 #define LIGHT_RAMP_DELAY    4   //  adjust this delay to change the speed the headLight lights and extinguishes
-#define SERVO_RAMP_DELAY    20  //  adjust this delay to change the speed with which the hat lid is raised or lowered
+#define SERVO_RAMP_OPEN_DELAY    6  //  adjust this delay to change the speed with which the hat lid is raised or lowered
+#define SERVO_RAMP_CLOSE_DELAY    20  //  adjust this delay to change the speed with which the hat lid is raised or lowered
 #define EYES_OPEN_DELAY   3000  //  adjust this delay to change how long the had lid is in the raised position
-#define GOGGLES_LIGHT_RAMP_DELAY 5   //  adjust this delay to change the time it takes for the goggle lights ramp up or down
+#define GOGGLES_LIGHT_RAMP_DELAY 3   //  adjust this delay to change the time it takes for the goggle lights ramp up or down
 #define GOGGLES_LIGHT_ON_MAX  150    //  number of loops the goggle lights stay on
 #define GOGGLES_LIGHT_OFF_MAX  5     //  number of loops the goggle lights stay off (when "blinking")
 #define GOGGLES_LIGHT_DELAY 30       //  loop delay when goggle lights are on or off
@@ -116,13 +119,13 @@ switch (gogglesLightState) {
     for(servoAngle = 0; servoAngle < 180; servoAngle++)  //move the micro servo from 0 degrees to 180 degrees
     {                                  
       servo.write(servoAngle);              
-      delay(SERVO_RAMP_DELAY);                  
+      delay(SERVO_RAMP_OPEN_DELAY);                  
     }
     delay(EYES_OPEN_DELAY);
     for(servoAngle = 180; servoAngle > 0; servoAngle--)  //now move back the micro servo from 0 degrees to 180 degrees
     {                                
       servo.write(servoAngle);          
-      delay(SERVO_RAMP_DELAY);      
+      delay(SERVO_RAMP_CLOSE_DELAY);      
     }
     rampLight (-1);
     peekRequest = false;
